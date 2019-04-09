@@ -1,26 +1,37 @@
+import { SearchService } from './../../shared/search.service';
 import { AlertService } from './../../shared/alert.service';
 import { Sistema } from './../sistema/sistema.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { TarefaService } from './tarefa.service';
 import { Tarefa } from './tarefa.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-tarefa',
   templateUrl: './tarefa.component.html',
-  styleUrls: ['./tarefa.component.scss']
+  styleUrls: ['./tarefa.component.scss'],
+  providers:[SearchService]
 })
 export class TarefaComponent implements OnInit {
 
-  tarefas$: Tarefa[];
+  @Input() tarefas$: Tarefa[];
   tarefasDone$: Tarefa[];
   sistemas$: Sistema[];
   displaySistema: number = 1;
   tarefaForm: FormGroup;
+  searchTerm$ = new Subject<string>();
+  resultsSearch: Tarefa[];
 
   constructor(private tarefaService: TarefaService,
     private formBuilder: FormBuilder,
-    private alertService: AlertService) { }
+    private alertService: AlertService,
+    private searchService: SearchService) {
+      this.searchService.search(this.searchTerm$)
+      .subscribe(results => {
+        this.resultsSearch = results;
+      })
+     }
 
   ngOnInit() {
     this.tarefaForm = this.formBuilder.group({

@@ -24,6 +24,7 @@ import {
 import { HttpClientModule } from '@angular/common/http';
 import { TarefaComponent } from 'app/todo/tarefa/tarefa.component';
 import { TarefaModule } from 'app/todo/tarefa/tarefa.module';
+import { FilterPipe } from 'app/shared/filter.pipe';
 @NgModule({
   imports: [
     CommonModule,
@@ -47,7 +48,8 @@ import { TarefaModule } from 'app/todo/tarefa/tarefa.module';
     MapsComponent,
     NotificationsComponent,
     UpgradeComponent,
-    TarefaComponent
+    TarefaComponent,
+    FilterPipe
   
   ],
 

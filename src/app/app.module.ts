@@ -1,3 +1,4 @@
+import { FilterPipe } from './shared/filter.pipe';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -37,7 +38,8 @@ import { TarefaService } from './todo/tarefa/tarefa.service';
   ],
   declarations: [
     AppComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
+
 
   ],
   providers: [TarefaService],
