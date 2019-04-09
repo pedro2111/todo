@@ -1,0 +1,207 @@
+<ng-container *ngFor="let sistema of sistemas$">
+  <button mat-raised-button class="btn btn-warning mr-1 mb-4"
+    (click)="trocaDisplay(sistema.id)">{{sistema.nome}}</button>
+</ng-container>
+<ng-container *ngFor="let sistema of sistemas$">
+  <div [ngClass]="{'d-none':sistema.id != displaySistema }" class="col-lg-12 col-md-12 mx-auto"
+    style="min-width: 770px; max-width: 770px;">
+    <div class="card">
+      <div class="card-header card-header-tabs card-header-info">
+        <div class="nav-tabs-navigation">
+          <div class="nav-tabs-wrapper">
+            <span class="nav-tabs-title">{{sistema.nome}}</span>
+            <ul class="nav nav-tabs" data-tabs="tabs">
+              <li class="nav-item">
+                <a mat-button class="nav-link active" href="#req{{sistema.nome}}" data-toggle="tab">
+                  <i class="material-icons">assignment</i> REQ
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a mat-button class="nav-link" href="#crq{{sistema.nome}}" data-toggle="tab">
+                  <i class="material-icons">assignment</i> CRQ
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a mat-button class="nav-link" href="#today{{sistema.nome}}" data-toggle="tab">
+                  <i class="material-icons">error</i> URGENTE
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a mat-button class="nav-link" href="#done{{sistema.nome}}" data-toggle="tab">
+                  <i class="material-icons">error</i> DONE
+                  <div class="ripple-container"></div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="card-body" style="max-height: 600px; overflow-y: auto;">
+        <div class="tab-content">
+          <div class="tab-pane active" id="req{{sistema.nome}}">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td colspan="3">
+                    <form #form="ngForm" [formGroup]="tarefaForm" (submit)="criarTarefa()">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <mat-form-field class="example-full-width">
+                            <input formControlName="nome" matInput placeholder="REQ" type="text" autofocus>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-8">
+                          <mat-form-field class="example-full-width">
+                            <input formControlName="descricao" matInput placeholder="Descrição" type="text">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-1">
+                          <button [disabled]="tarefaForm.invalid" type="submit" mat-raised-button class="btn btn-success btn-lg btn-link btn-just-icon"
+                            (click)="tarefaForm.get('id_sistema').setValue(sistema.id);
+                              tarefaForm.get('id_cat').setValue(1);
+                              tarefaForm.get('status').setValue(0);"><i class="material-icons">add_circle</i></button>
+                        </div>
+                      </div>
+                      <!--(click)="tarefaForm.get('id_sistema').setValue(1)"-->
+                    </form>
+                  </td>
+                </tr>
+                <ng-container *ngFor="let tarefa of tarefas$">
+                  <tr *ngIf="tarefa.id_cat == 1 && tarefa.id_sistema == sistema.id  && tarefa.status == 0 ">
+                    <td>{{tarefa.nome}} - {{tarefa.descricao}}</td>
+                    <td class="td-actions text-right">
+                      <button mat-raised-button type="button" matTooltip="Done" [matTooltipPosition]="'above'"
+                        class="btn btn-success btn-link btn-sm btn-just-icon" (click)="finalizarTarefa(tarefa.id)">
+                        <i class="material-icons">done</i>
+                      </button>
+                      <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                        class="btn btn-danger btn-link btn-sm btn-just-icon" (click)="deletarTarefa(tarefa.id)">
+                        <i class="material-icons">close</i>
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
+
+              </tbody>
+            </table>
+          </div>
+          <div class="tab-pane " id="crq{{sistema.nome}}">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td colspan="3">
+                    <form #form="ngForm" [formGroup]="tarefaForm" (submit)="criarTarefa()">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <mat-form-field class="example-full-width">
+                            <input formControlName="nome" matInput placeholder="CRQ" type="text" autofocus>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-8">
+                          <mat-form-field class="example-full-width">
+                            <input formControlName="descricao" matInput placeholder="Descrição" type="text">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-1">
+                          <button [disabled]="tarefaForm.invalid" type="submit" mat-raised-button class="btn btn-success btn-lg btn-link btn-just-icon"
+                            (click)="tarefaForm.get('id_sistema').setValue(sistema.id);
+                            tarefaForm.get('id_cat').setValue(1);
+                            tarefaForm.get('status').setValue(0);"><i class="material-icons">add_circle</i></button>
+                        </div>
+                      </div>
+                      <!--(click)="tarefaForm.get('id_sistema').setValue(1)"-->
+                    </form>
+                  </td>
+                </tr>
+                <ng-container *ngFor="let tarefa of tarefas$">
+                  <tr *ngIf="tarefa.id_cat == 2 && tarefa.id_sistema == sistema.id">
+                    <td>{{tarefa.nome}} - {{tarefa.descricao}}</td>
+                    <td class="td-actions text-right">
+                      <button mat-raised-button type="button" matTooltip="Done" [matTooltipPosition]="'above'"
+                        class="btn btn-success btn-link btn-sm btn-just-icon" (click)="finalizarTarefa(tarefa.id)">
+                        <i class="material-icons">done</i>
+                      </button>
+                      <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                        <i class="material-icons">close</i>
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
+
+              </tbody>
+            </table>
+          </div>
+          <div class="tab-pane" id="today{{sistema.nome}}">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td colspan="3">
+                    <form #form="ngForm" [formGroup]="tarefaForm" (submit)="criarTarefa()">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <mat-form-field class="example-full-width">
+                            <input formControlName="nome" matInput placeholder="Nome" type="text" autofocus>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-8">
+                          <mat-form-field class="example-full-width">
+                            <input formControlName="descricao" matInput placeholder="Descrição" type="text">
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-1">
+                          <button [disabled]="tarefaForm.invalid" type="submit" mat-raised-button class="btn btn-success btn-lg btn-link btn-just-icon"
+                            (click)="tarefaForm.get('id_sistema').setValue(sistema.id);
+                            tarefaForm.get('id_cat').setValue(1);
+                            tarefaForm.get('status').setValue(0);"><i class="material-icons">add_circle</i></button>
+                        </div>
+                      </div>
+                      <!--(click)="tarefaForm.get('id_sistema').setValue(1)"-->
+                    </form>
+                  </td>
+                </tr>
+                <ng-container *ngFor="let tarefa of tarefas$">
+                  <tr *ngIf="tarefa.id_cat == 3 && tarefa.id_sistema == sistema.id ">
+                    <td>{{tarefa.nome}} - {{tarefa.descricao}}</td>
+                    <td class="td-actions text-right">
+                      <button mat-raised-button type="button" matTooltip="Done" [matTooltipPosition]="'above'"
+                        class="btn btn-success btn-link btn-sm btn-just-icon" (click)="finalizarTarefa(tarefa.id)">
+                        <i class="material-icons">done</i>
+                      </button>
+                      <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                        <i class="material-icons">close</i>
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
+
+              </tbody>
+            </table>
+          </div>
+          <div class="tab-pane" id="done{{sistema.nome}}">
+            <table class="table">
+              <tbody>
+                <ng-container *ngFor="let tarefa of tarefasDone$">
+                  <tr *ngIf="tarefa.id_sistema == sistema.id ">
+                    <td>{{tarefa.nome}} - {{tarefa.descricao}}</td>
+                    <td class="td-actions text-right">
+                      <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                        class="btn btn-danger btn-link btn-sm btn-just-icon">
+                        <i class="material-icons">close</i>
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
