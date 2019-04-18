@@ -18,13 +18,15 @@ import {
   MatRippleModule,
   MatFormFieldModule,
   MatTooltipModule,
-  MatSelectModule
+  MatSelectModule,
+  MatProgressBarModule
 } from '@angular/material';
 
-import { HttpClientModule } from '@angular/common/http';
+
 import { TarefaComponent } from 'app/todo/tarefa/tarefa.component';
 import { TarefaModule } from 'app/todo/tarefa/tarefa.module';
-import { FilterPipe } from 'app/shared/filter.pipe';
+
+
 @NgModule({
   imports: [
     CommonModule,
@@ -37,8 +39,11 @@ import { FilterPipe } from 'app/shared/filter.pipe';
     MatSelectModule,
     MatTooltipModule,
     ReactiveFormsModule,
+    MatProgressBarModule,
+    
     
   ],
+  exports:[],
   declarations: [
     DashboardComponent,
     UserProfileComponent,
@@ -49,9 +54,9 @@ import { FilterPipe } from 'app/shared/filter.pipe';
     NotificationsComponent,
     UpgradeComponent,
     TarefaComponent,
-    FilterPipe
   
   ],
+  
 
 })
 

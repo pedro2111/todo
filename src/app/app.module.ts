@@ -1,4 +1,4 @@
-import { FilterPipe } from './shared/filter.pipe';
+
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
@@ -21,6 +21,7 @@ import { UpgradeComponent } from './upgrade/upgrade.component';
 import {  AgmCoreModule} from '@agm/core';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { TarefaService } from './todo/tarefa/tarefa.service';
+
 
 
 @NgModule({

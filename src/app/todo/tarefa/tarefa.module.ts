@@ -2,10 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { TarefaComponent } from "./tarefa.component";
 import { NotificationsComponent } from 'app/notifications/notifications.component';
+import { MatProgressBarModule } from '@angular/material';
+
 
 @NgModule({
     declarations: [TarefaComponent,NotificationsComponent],
@@ -14,7 +16,7 @@ import { NotificationsComponent } from 'app/notifications/notifications.componen
         ReactiveFormsModule,
         RouterModule,
         HttpClientModule,
-        FormsModule]
+        FormsModule],
 
 })
 export class TarefaModule{

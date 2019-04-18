@@ -1,6 +1,6 @@
 <form class="navbar-form">
   <div class="input-group no-border">
-    <input (keyup)="searchTerm$.next($event.target.value)" type="text" value="" class="form-control"
+    <input (keyup)="$event.target.value ? searchTerm$.next($event.target.value) : backDashboard()" type="text" value="" class="form-control"
       placeholder="Pesquisar tarefa...">
     <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
       <i class="material-icons">search</i>
@@ -9,7 +9,7 @@
   </div>
 </form>
 
-<div class="row" *ngIf="resultsSearch">
+<div class="row" *ngIf="displayPesquisa">
   <div class="col-md-12">
     <div class="card">
       <div class="card-header card-header-danger">
@@ -60,7 +60,7 @@
     </div>
   </div>
 </div>
-<ng-container *ngIf="!resultsSearch">
+<ng-container *ngIf="!displayPesquisa">
   <ng-container *ngFor="let sistema of sistemas$">
     <button mat-raised-button class="btn btn-warning mr-1 mb-4"
       (click)="trocaDisplay(sistema.id)">{{sistema.nome}}</button>
@@ -171,7 +171,7 @@
                           <div class="col-md-1">
                             <button [disabled]="tarefaForm.invalid" type="submit" mat-raised-button
                               class="btn btn-success btn-lg btn-link btn-just-icon" (click)="tarefaForm.get('id_sistema').setValue(sistema.id);
-                            tarefaForm.get('id_cat').setValue(1);
+                            tarefaForm.get('id_cat').setValue(2);
                             tarefaForm.get('status').setValue(0);"><i class="material-icons">add_circle</i></button>
                           </div>
                         </div>
@@ -180,7 +180,7 @@
                     </td>
                   </tr>
                   <ng-container *ngFor="let tarefa of tarefas$">
-                    <tr *ngIf="tarefa.id_cat == 2 && tarefa.id_sistema == sistema.id">
+                    <tr *ngIf="tarefa.id_cat == 2 && tarefa.id_sistema == sistema.id && tarefa.status == 0">
                       <td>{{tarefa.nome}} - {{tarefa.descricao}}</td>
                       <td class="td-actions text-right">
                         <button mat-raised-button type="button" matTooltip="Done" [matTooltipPosition]="'above'"
@@ -188,7 +188,7 @@
                           <i class="material-icons">done</i>
                         </button>
                         <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
-                          class="btn btn-danger btn-link btn-sm btn-just-icon">
+                          class="btn btn-danger btn-link btn-sm btn-just-icon" (click)="deletarTarefa(tarefa.id)">
                           <i class="material-icons">close</i>
                         </button>
                       </td>
@@ -218,7 +218,7 @@
                           <div class="col-md-1">
                             <button [disabled]="tarefaForm.invalid" type="submit" mat-raised-button
                               class="btn btn-success btn-lg btn-link btn-just-icon" (click)="tarefaForm.get('id_sistema').setValue(sistema.id);
-                            tarefaForm.get('id_cat').setValue(1);
+                            tarefaForm.get('id_cat').setValue(3);
                             tarefaForm.get('status').setValue(0);"><i class="material-icons">add_circle</i></button>
                           </div>
                         </div>
@@ -227,7 +227,7 @@
                     </td>
                   </tr>
                   <ng-container *ngFor="let tarefa of tarefas$">
-                    <tr *ngIf="tarefa.id_cat == 3 && tarefa.id_sistema == sistema.id ">
+                    <tr *ngIf="tarefa.id_cat == 3 && tarefa.id_sistema == sistema.id && tarefa.status == 0 ">
                       <td>{{tarefa.nome}} - {{tarefa.descricao}}</td>
                       <td class="td-actions text-right">
                         <button mat-raised-button type="button" matTooltip="Done" [matTooltipPosition]="'above'"
@@ -235,7 +235,7 @@
                           <i class="material-icons">done</i>
                         </button>
                         <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
-                          class="btn btn-danger btn-link btn-sm btn-just-icon">
+                          class="btn btn-danger btn-link btn-sm btn-just-icon" (click)="deletarTarefa(tarefa.id)">
                           <i class="material-icons">close</i>
                         </button>
                       </td>
@@ -253,7 +253,7 @@
                       <td>{{tarefa.nome}} - {{tarefa.descricao}}</td>
                       <td class="td-actions text-right">
                         <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
-                          class="btn btn-danger btn-link btn-sm btn-just-icon">
+                          class="btn btn-danger btn-link btn-sm btn-just-icon" (click)="deletarTarefa(tarefa.id)">
                           <i class="material-icons">close</i>
                         </button>
                       </td>

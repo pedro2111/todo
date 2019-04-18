@@ -6,6 +6,8 @@ import { TarefaService } from './tarefa.service';
 import { Tarefa } from './tarefa.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { switchMap } from 'rxjs-compat/operator/switchMap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tarefa',
@@ -19,17 +21,21 @@ export class TarefaComponent implements OnInit {
   tarefasDone$: Tarefa[];
   sistemas$: Sistema[];
   displaySistema: number = 1;
+  displayPesquisa: number = 0;
   tarefaForm: FormGroup;
   searchTerm$ = new Subject<string>();
   resultsSearch: Tarefa[];
+  filtro:string;
 
   constructor(private tarefaService: TarefaService,
     private formBuilder: FormBuilder,
     private alertService: AlertService,
-    private searchService: SearchService) {
+    private searchService: SearchService,
+    private router: Router) {
       this.searchService.search(this.searchTerm$)
       .subscribe(results => {
-        this.resultsSearch = results;
+        this.displayPesquisa = 1;
+        this.resultsSearch = results;        
       })
      }
 
@@ -64,23 +70,27 @@ export class TarefaComponent implements OnInit {
     this.displaySistema = id;
   }
   criarTarefa() {
-    const novaTarefa = this.tarefaForm.getRawValue() as Tarefa;
-    this.tarefaService.criarTarefa(novaTarefa).subscribe(() => this.showNotification('top','right','success','Tarefa Adicionada com sucesso!'), err => console.log(err));
-    this.getAllTarefas();
+    const novaTarefa = this.tarefaForm.getRawValue() as Tarefa;    
+    this.tarefaService.criarTarefa(novaTarefa).subscribe(() => 
+    {this.showNotification('top','right','success','Tarefa Adicionada com sucesso!'),this.getAllTarefas()}, err => console.log(err));
     this.tarefaForm.reset();
   }
   deletarTarefa(id: number) {
-    this.tarefaService.deletarTarefa(id).subscribe(() => this.showNotification('top','right','success','Tarefa removida com sucesso!'),err => console.log(err));
-    this.getAllTarefas();
+    this.tarefaService.deletarTarefa(id).subscribe(() => 
+    {this.showNotification('top','right','success','Tarefa removida com sucesso!'),this.getAllTarefas(),this.getDoneTarefas()},err => console.log(err));
     this.tarefaForm.reset();
   }
   finalizarTarefa(id: number) {
-    this.tarefaService.finalizarTarefa(id).subscribe(() =>this.showNotification('top','right','success','Tarefa finalizada com sucesso!'),err => console.log(err));
-    this.getAllTarefas();
-    this.getDoneTarefas();
+    this.tarefaService.finalizarTarefa(id).subscribe(() =>
+    {this.showNotification('top','right','success','Tarefa finalizada com sucesso!'),this.getAllTarefas(),this.getDoneTarefas()},err => console.log(err));
   }
   showNotification(from: string, align: string,type:string, text: string) {
     this.alertService.showNotification(from,align,type,text);
+  }
+  backDashboard(){
+    this.resultsSearch = null;
+    this.displayPesquisa = 0;
+    this.router.navigate(['']);
   }
 
 }

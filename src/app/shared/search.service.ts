@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
+import { Router } from '@angular/router';
 
 const API = 'http://localhost:4200';
 
@@ -13,16 +14,19 @@ const API = 'http://localhost:4200';
 })
 export class SearchService {
 
-  
-  constructor(private http:HttpClient) { }
 
-  search(terms: Observable<string>){
-    return terms.debounceTime(10)
-    .distinctUntilChanged()
-    .switchMap(term => this.searchTarefa(term));
+  constructor(private http: HttpClient, private router: Router) { }
+
+  search(terms: Observable<string>) {
+    return terms.debounceTime(1000)
+      .distinctUntilChanged()
+      .switchMap(term => this.searchTarefa(term));
   }
 
-  searchTarefa(term){
-    return this.http.get<Tarefa[]>(API + '/api/tarefa/search/' + term );
+  searchTarefa(term) {
+
+    return this.http.get<Tarefa[]>(API + '/api/tarefa/search/' + term);
+
+
   }
 }
