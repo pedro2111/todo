@@ -1,0 +1,70 @@
+<form class="navbar-form">
+    <div class="input-group no-border">
+        <input #pesquisa (keyup)="$event.target.value ? searchTerm$.next($event.target.value) : backDashboard()"
+            type="text" value="" class="form-control" placeholder="Pesquisar sistema...">
+        <button mat-raised-button type="submit" class="btn btn-white btn-round btn-just-icon">
+            <i class="material-icons">search</i>
+            <div class="ripple-container"></div>
+        </button>
+    </div>
+</form>
+
+<div class="row" *ngIf="displayPesquisaSistema">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header card-header-danger">
+        <h4 class="card-title ">Resultado da pesquisa</h4>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table">
+            <thead class=" text-primary">
+              <th>
+                ID
+              </th>
+              <th>
+                Nome
+              </th>
+              <th>
+                Data de Criação
+              </th>
+            </thead>
+            <tbody *ngFor="let result of resultsSearch">
+              <tr>
+                <td>
+                  {{result.id}}
+                </td>
+                <td>
+                  {{result.nome}}
+                </td>
+                <td class="text-primary">
+                  {{result.created_at | date: 'dd/MM/yyyy'}}
+                </td>
+                <td class="td-actions text-right">
+                    <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'"
+                      class="btn btn-danger btn-link btn-sm btn-just-icon" (click)="deletarSistema(result.id)">
+                      <i class="material-icons">close</i>
+                    </button>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="!displayPesquisaSistema">
+  <form #form="ngForm" [formGroup]="sistemaForm" (submit)="criarSistema()">
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field class="example-full-width">
+          <input formControlName="nome" matInput placeholder="Sistema..." type="text">
+        </mat-form-field>
+      </div>
+    </div>
+    <button [disabled]="sistemaForm.invalid" mat-raised-button type="submit"
+      class="btn btn-info pull-right">Salvar</button>
+    <div class="clearfix"></div>
+  </form>
+</ng-container>

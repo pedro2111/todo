@@ -66,7 +66,7 @@
       (click)="trocaDisplay(sistema.id)">{{sistema.nome}}</button>
   </ng-container>
   <ng-container *ngFor="let sistema of sistemas$">
-    <div [ngClass]="{'d-none':sistema.id != displaySistema }" class="col-lg-12 col-md-12 mx-auto"
+    <div [ngClass]="{'d-none':sistema.id != displaySistema }" class="col-lg-6 col-md-12 mx-auto"
       style="min-width: 770px; max-width: 770px;">
       <div class="card">
         <div class="card-header card-header-tabs card-header-info">
@@ -267,5 +267,7 @@
         </div>
       </div>
     </div>
+
+  
   </ng-container>
 </ng-container>

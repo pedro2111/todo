@@ -1,3 +1,4 @@
+import { Sistema } from './../todo/sistema/sistema.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Tarefa } from 'app/todo/tarefa/tarefa.model';
@@ -22,10 +23,20 @@ export class SearchService {
       .distinctUntilChanged()
       .switchMap(term => this.searchTarefa(term));
   }
-
   searchTarefa(term) {
 
     return this.http.get<Tarefa[]>(API + '/api/tarefa/search/' + term);
+
+
+  }
+  searchSistema(terms: Observable<string>) {
+    return terms.debounceTime(1000)
+      .distinctUntilChanged()
+      .switchMap(term => this.getSearchSistema(term));
+  }
+  getSearchSistema(term) {
+
+    return this.http.get<Sistema[]>(API + '/api/sistema/search/' + term);
 
 
   }

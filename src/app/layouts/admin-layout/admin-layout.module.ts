@@ -25,6 +25,7 @@ import {
 
 import { TarefaComponent } from 'app/todo/tarefa/tarefa.component';
 import { TarefaModule } from 'app/todo/tarefa/tarefa.module';
+import { SistemaComponent } from 'app/todo/sistema/sistema.component';
 
 
 @NgModule({
@@ -39,8 +40,7 @@ import { TarefaModule } from 'app/todo/tarefa/tarefa.module';
     MatSelectModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    MatProgressBarModule,
-    
+    MatProgressBarModule,    
     
   ],
   exports:[],
@@ -54,6 +54,7 @@ import { TarefaModule } from 'app/todo/tarefa/tarefa.module';
     NotificationsComponent,
     UpgradeComponent,
     TarefaComponent,
+    SistemaComponent
   
   ],
   
