@@ -23,6 +23,9 @@ export class TarefaService {
     getAllSistemas(){
         return this.http.get<Sistema[]>(API + '/api/sistema');
     }
+    getTarefaSistema(){
+        return this.http.get<Tarefa[]>(API + '/api/tarefasistema');
+    }
     criarTarefa(tarefa:Tarefa){
         return this.http.post(API + '/api/tarefa', tarefa);
     }

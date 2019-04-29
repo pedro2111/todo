@@ -271,3 +271,54 @@
   
   </ng-container>
 </ng-container>
+
+<div class="col-md-12">
+  <div class="card card-plain">
+      <div class="card-header card-header-danger">
+          <h4 class="card-title mt-0"> Lista completa de tarefas</h4>
+      </div>
+      <div class="card-body" style="max-height: 600px; overflow-y: auto;">
+          <div class="table-responsive">
+              <table class="table table-hover">
+                  <thead>
+                      <th>
+                          Sistema
+                      </th>
+                      <th>
+                          Nome
+                      </th>
+                      <th>
+                          descricao
+                      </th>
+                      <th>
+                          status
+                      </th>
+                      <th>
+                          DT Criação
+                      </th>
+                  </thead>
+                  <tbody *ngFor="let tarefaSistema of tarefaSistema$" >
+                      <tr [ngClass]="{'table-success':tarefaSistema.status == 1 }">
+                          <td>
+                            {{tarefaSistema.sistema}}
+                          </td>
+                          <td>
+                            {{tarefaSistema.nome}}
+                          </td>
+                          <td>
+                            {{tarefaSistema.descricao}}
+                          </td>
+                          <td>
+                            {{tarefaSistema.status ? 'Concluída' : 'Em andamento'}}
+                          </td>
+                          <td>
+                            {{tarefaSistema.created_at | date: 'dd/MM/yyyy'}}
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</div>
+

@@ -19,6 +19,7 @@ export class TarefaComponent implements OnInit {
 
   @Input() tarefas$: Tarefa[];
   tarefasDone$: Tarefa[];
+  tarefaSistema$: Tarefa[];
   sistemas$: Sistema[];
   displaySistema: number = 1;
   displayPesquisa: number = 0;
@@ -50,6 +51,7 @@ export class TarefaComponent implements OnInit {
     this.getAllTarefas();
     this.getAllSistemas();
     this.getDoneTarefas();
+    this.getTarefaSistema();
   }
 
   getAllTarefas() {
@@ -65,6 +67,10 @@ export class TarefaComponent implements OnInit {
     this.tarefaService.getAllSistemas()
       .subscribe(res => this.sistemas$ = res)
   }
+  getTarefaSistema(){
+    this.tarefaService.getTarefaSistema()
+    .subscribe(res => this.tarefaSistema$ = res)
+  }
 
   trocaDisplay(id: number) {
     this.displaySistema = id;
@@ -72,17 +78,17 @@ export class TarefaComponent implements OnInit {
   criarTarefa() {
     const novaTarefa = this.tarefaForm.getRawValue() as Tarefa;    
     this.tarefaService.criarTarefa(novaTarefa).subscribe(() => 
-    {this.showNotification('top','right','success','Tarefa Adicionada com sucesso!'),this.getAllTarefas()}, err => console.log(err));
+    {this.showNotification('top','right','success','Tarefa Adicionada com sucesso!'),this.getAllTarefas(),this.getTarefaSistema()}, err => console.log(err));
     this.tarefaForm.reset();
   }
   deletarTarefa(id: number) {
     this.tarefaService.deletarTarefa(id).subscribe(() => 
-    {this.showNotification('top','right','success','Tarefa removida com sucesso!'),this.getAllTarefas(),this.getDoneTarefas()},err => console.log(err));
+    {this.showNotification('top','right','success','Tarefa removida com sucesso!'),this.getAllTarefas(),this.getDoneTarefas(),this.getTarefaSistema()},err => console.log(err));
     this.tarefaForm.reset();
   }
   finalizarTarefa(id: number) {
     this.tarefaService.finalizarTarefa(id).subscribe(() =>
-    {this.showNotification('top','right','success','Tarefa finalizada com sucesso!'),this.getAllTarefas(),this.getDoneTarefas()},err => console.log(err));
+    {this.showNotification('top','right','success','Tarefa finalizada com sucesso!'),this.getAllTarefas(),this.getDoneTarefas(),this.getTarefaSistema()},err => console.log(err));
   }
   showNotification(from: string, align: string,type:string, text: string) {
     this.alertService.showNotification(from,align,type,text);

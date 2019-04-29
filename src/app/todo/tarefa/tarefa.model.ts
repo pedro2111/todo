@@ -6,5 +6,6 @@ export interface Tarefa {
     descricao: string,
     status: number,
     created_at: Date,
-    updated_at: Date
+    updated_at: Date,
+    sistema:string
 }
